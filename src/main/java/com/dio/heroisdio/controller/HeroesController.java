@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 import static com.dio.heroisdio.constants.HeroesConstant.HEROES_ENDPOINT_LOCAL;
 
 @RestController
-@Slf4j
 public class HeroesController {
     HeroesService heroesService;
 
@@ -30,7 +29,7 @@ public class HeroesController {
     @GetMapping(HEROES_ENDPOINT_LOCAL)
     @ResponseStatus(HttpStatus.OK)
     public Flux<Heroes> getAllItems() {
-        log.info("requesting the list off all heroes");
+        log.info("Requisitando lista com todos os herois");
         return heroesService.findAll();
 
     }
@@ -38,7 +37,7 @@ public class HeroesController {
 
     @GetMapping(HEROES_ENDPOINT_LOCAL + "/{id}")
     public Mono<ResponseEntity<Heroes>> findByIdHero(@PathVariable String id) {
-        log.info("Requesting the hero with id {}", id);
+        log.info("Requisitando o heroi com o id {}", id);
         return heroesService.findByIdHero(id)
                 .map((item) -> new ResponseEntity<>(item, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -47,7 +46,7 @@ public class HeroesController {
     @PostMapping(HEROES_ENDPOINT_LOCAL)
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Heroes> createHero(@RequestBody Heroes heroes) {
-        log.info("A new Hero was Created");
+        log.info("Novo heroi criado");
         return heroesService.save(heroes);
 
     }
@@ -56,7 +55,7 @@ public class HeroesController {
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public Mono<HttpStatus> deletebyIDHero(@PathVariable String id) {
         heroesService.deletebyIDHero(id);
-        log.info("Deleting the hero with id {}", id);
+        log.info("Deletando o heroi com o id {}", id);
         return Mono.just(HttpStatus.NOT_FOUND);
     }
 }

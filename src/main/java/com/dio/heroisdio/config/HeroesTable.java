@@ -16,7 +16,7 @@ import static com.dio.heroisdio.constants.HeroesConstant.ENDPOINT_DYNAMO;
 import static com.dio.heroisdio.constants.HeroesConstant.REGION_DYNAMO;
 
 public class HeroesTable {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(ENDPOINT_DYNAMO, REGION_DYNAMO))
@@ -29,10 +29,11 @@ public class HeroesTable {
         try {
             System.out.println("Criando tabela, aguarde...");
             Table table = dynamoDB.createTable(tableName,
-                    Arrays.asList(new KeySchemaElement("id", KeyType.HASH)
+                    Arrays.asList(
+                            new KeySchemaElement("id", KeyType.HASH)
                     ),
-                    Arrays.asList(new AttributeDefinition("id", ScalarAttributeType.S)
-
+                    Arrays.asList(
+                            new AttributeDefinition("id", ScalarAttributeType.S)
                     ),
                     new ProvisionedThroughput(5L, 5L));
             table.waitForActive();
@@ -40,7 +41,7 @@ public class HeroesTable {
 
         }
         catch (Exception e) {
-            System.err.println("Não foi possível criar a tabela");
+            System.err.println("Não foi possível criar a tabela =/");
             System.err.println(e.getMessage());
         }
 
